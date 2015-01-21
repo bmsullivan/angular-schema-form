@@ -64,6 +64,10 @@ angular.module('schemaForm').provider('schemaFormDecorators',
               }
             });
 
+            scope.remove = function() {
+              scope.$emit('sf-remove-element', {element: scope.form});
+            };
+
             //Keep error prone logic from the template
             scope.showTitle = function() {
               return scope.form && scope.form.notitle !== true && scope.form.title;

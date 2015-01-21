@@ -21,7 +21,8 @@ angular.module('schemaForm')
         schema: '=sfSchema',
         initialForm: '=sfForm',
         model: '=sfModel',
-        options: '=sfOptions'
+        options: '=sfOptions',
+        designMode: '=sfDesignMode'
       },
       controller: ['$scope', function($scope) {
         this.evalInParentScope = function(expr, locals) {
@@ -58,6 +59,32 @@ angular.module('schemaForm')
             }
           }
         });
+
+        scope.$on('sf-remove-element', function(event, args){
+          var element = args.element;
+          var newSchema = angular.copy(scope.schema);
+          var newForm = angular.copy(scope.initialForm);
+          delete newSchema.properties[element.key[0]];
+          removeKeyFromFormArray(element.key[0], newForm);
+
+          scope.schema = newSchema;
+          scope.initialForm = newForm;
+        });
+
+        function removeKeyFromFormArray(key, array) {
+          var index = -1;
+          for(var i = 0; i < array.length; i++) {
+            if(array[i].key && key == array[i].key[0]) {
+              index = i;
+            }
+            if(array[i].type == 'fieldset') {
+              removeKeyFromFormArray(key, array[i].items);
+            }
+          }
+          if(index > -1) {
+            array.splice(index, 1);
+          }
+        }
         //Since we are dependant on up to three
         //attributes we'll do a common watch
         var lastDigest = {};

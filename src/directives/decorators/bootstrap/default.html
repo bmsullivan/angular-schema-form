@@ -1,21 +1,28 @@
 <div class="form-group schema-form-{{form.type}} {{form.htmlClass}}"
      ng-class="{'has-error': hasError(), 'has-success': hasSuccess(), 'has-feedback': form.feedback !== false }">
-  <label class="control-label" ng-show="showTitle()">{{form.title}}</label>
+  <label class="control-label col-md-2" ng-show="showTitle()">{{form.title}}</label>
 
-  <input ng-show="form.key"
-         type="{{form.type}}"
-         step="any"
-         sf-changed="form"
-         placeholder="{{form.placeholder}}"
-         class="form-control {{form.fieldHtmlClass}}"
-         ng-model-options="form.ngModelOptions"
-         ng-model="$$value$$"
-         ng-disabled="form.readonly"
-         schema-validate="form"
-         name="{{form.key.slice(-1)[0]}}">
-  <span ng-if="form.feedback !== false"
-        class="form-control-feedback"
-        ng-class="evalInScope(form.feedback) || {'glyphicon': true, 'glyphicon-ok': hasSuccess(), 'glyphicon-remove': hasError() }"></span>
+  <div class="col-md-9">
+    <input ng-show="form.key"
+           type="{{form.type}}"
+           step="any"
+           sf-changed="form"
+           placeholder="{{form.placeholder}}"
+           class="form-control {{form.fieldHtmlClass}}"
+           ng-model-options="form.ngModelOptions"
+           ng-model="$$value$$"
+           ng-disabled="form.readonly"
+           schema-validate="form"
+           name="{{form.key.slice(-1)[0]}}"
+           ng-hide="designMode">
+    <input disabled ng-show="designMode" class="form-control {{form.fieldHtmlClass}}" />
+    <span ng-if="form.feedback !== false"
+          class="form-control-feedback"
+          ng-class="evalInScope(form.feedback) || {'glyphicon': true, 'glyphicon-ok': hasSuccess(), 'glyphicon-remove': hasError() }"></span>
+  </div>
+  <div class="col-md-1">
+    <button class="glyphicon glyphicon-trash btn" ng-show="designMode" ng-click="remove()"></button>
+  </div>
   <div class="help-block"
        ng-show="(hasError() && errorMessage(schemaError())) || form.description"
        ng-bind-html="(hasError() && errorMessage(schemaError())) || form.description"></div>
