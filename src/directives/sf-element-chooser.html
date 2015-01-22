@@ -1,0 +1,13 @@
+<div class="col-md-12">
+  <div class="edit-container">
+        <span class="dropdown" ng-show="designMode">
+            <hr style="border: 1px dashed #cecece;" />
+            <button class="dropdown-toggle btn btn-default">Add New <span class="caret"></span></button>
+            <ul class="dropdown-menu centered-menu">
+              <li ng-repeat="choice in menuItems">
+                <a href="" ng-click="addElement(choice.type)" class="text-left">{{choice.label}}</a>
+              </li>
+            </ul>
+        </span>
+  </div>
+</div>

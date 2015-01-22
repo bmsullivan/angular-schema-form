@@ -19,6 +19,18 @@ gulp.task('bootstrap', function() {
       root: 'directives/decorators/bootstrap/'
     }))
     );
+  stream.queue(
+    gulp.src('./src/directives/*.html')
+      .pipe(minifyHtml({
+        empty: true,
+        spare: true,
+        quotes: true
+      }))
+      .pipe(templateCache({
+        module: 'schemaForm',
+        root: 'directives/'
+      }))
+  );
   stream.queue(gulp.src('./src/directives/decorators/bootstrap/*.js'));
 
   stream.done()

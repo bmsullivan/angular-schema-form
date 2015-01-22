@@ -71,6 +71,19 @@ angular.module('schemaForm')
           scope.initialForm = newForm;
         });
 
+        scope.$on('sf-element-added', function(event, args){
+          var newSchema = angular.copy(scope.schema);
+          var newForm = angular.copy(scope.initialForm);
+          args.element.key = [args.element.key];
+
+          newForm.push(args.element);
+          newSchema.properties[args.element.key[0]] = args.schemaItem;
+
+          scope.schema = newSchema;
+          scope.initialForm = newForm;
+          scope.model[element.key] = "";
+        });
+
         function removeKeyFromFormArray(key, array) {
           var index = -1;
           for(var i = 0; i < array.length; i++) {
@@ -149,6 +162,10 @@ angular.module('schemaForm')
               frag.appendChild(n);
 
             });
+
+            var elementChooser = document.createElement('sf-element-chooser');
+            elementChooser.setAttribute('design-mode', 'designMode');
+            frag.appendChild(elementChooser);
 
             element[0].appendChild(frag);
 
