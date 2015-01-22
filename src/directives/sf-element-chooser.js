@@ -7,7 +7,8 @@
       restrict: 'E',
       templateUrl: 'directives/sf-element-chooser.html',
       scope: {
-        designMode: '='
+        designMode: '=',
+        parentKey: '='
       },
       controller: function($scope) {
         $scope.menuItems = [
@@ -17,7 +18,7 @@
         ];
 
         $scope.addElement = function(type) {
-          $scope.$emit('sf-adding-element', { type: type });
+          $scope.$emit('sf-adding-element', { type: type, parentKey: $scope.parentKey });
         }
       }
     }

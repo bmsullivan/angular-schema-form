@@ -76,13 +76,31 @@ angular.module('schemaForm')
           var newForm = angular.copy(scope.initialForm);
           args.element.key = [args.element.key];
 
-          newForm.push(args.element);
-          newSchema.properties[args.element.key[0]] = args.schemaItem;
+          if(args.parentKey) {
+            addToParent(newForm, args.parentKey, args.element);
+          } else {
+            newForm.push(args.element);
+          }
+
+
+          if(args.element.type != 'fieldset') {
+            newSchema.properties[args.element.key[0]] = args.schemaItem;
+            scope.model[element.key] = "";
+          }
 
           scope.schema = newSchema;
           scope.initialForm = newForm;
-          scope.model[element.key] = "";
         });
+
+        function addToParent(array, parentKey, element) {
+          for(index in array) {
+            if(array[index].key[0] == parentKey[0]) {
+              array[index].items.push(element);
+            } else if(array[index].type == 'fieldset') {
+              addToParent(array[index].items, parentKey, element);
+            }
+          }
+        }
 
         function removeKeyFromFormArray(key, array) {
           var index = -1;
